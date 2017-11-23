@@ -31,32 +31,6 @@
           "amount": 1
         }
       ]
-    },
-    {
-      "name": "Test12",
-      "imagePath": "http://placehold.it/2001",
-      "description": "test",
-      "ingredients": [],
-      "id": 2
-    }
-  ],
-  "ingredients": [
-    {
-      "name": "Apples",
-      "amount": 5
-    },
-    {
-      "name": "Tomatoes",
-      "amount": 10
-    },
-    {
-      "id": "Taart",
-      "name": 1
-    },
-    {
-      "name": "Test",
-      "amount": 1,
-      "id": "SytshBNxz"
     }
   ]
 }

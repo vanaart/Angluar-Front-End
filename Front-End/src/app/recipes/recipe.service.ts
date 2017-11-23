@@ -16,7 +16,7 @@ export class RecipeService {
 
   constructor(private slService: ShoppingListService, private http: HttpClient) {}
 
-  getRecipes(): Promise<any[]> {
+  getRecipes(): Promise<Recipe[]> {
     return this.http.get('http://localhost:3000/recipies').toPromise().then(response => {
       this.recipes = response as Recipe[];
       return this.recipes;
@@ -41,11 +41,17 @@ export class RecipeService {
 
   updateRecipe(index: number, newRecipe: Recipe) {
     this.recipes[index] = newRecipe;
+
+    this.http.put('http://localhost:3000/recipies/' + index, newRecipe).subscribe();
+
     this.recipesChanged.next(this.recipes.slice());
   }
 
   deleteRecipe(index: number) {
     this.recipes.splice(index, 1);
+
+    this.http.delete('http://localhost:3000/recipies/' + index).subscribe();
+
     this.recipesChanged.next(this.recipes.slice());
   }
 }
