@@ -5,7 +5,7 @@ import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import {HttpClient} from '@angular/common/http';
-import { apiEndpoint } from '../shared/data.service'
+import { apiEndpoint } from '../shared/data.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
@@ -36,7 +36,9 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
 
-    this.http.post(apiEndpoint + '/recipes', recipe).subscribe();
+    this.http.post(apiEndpoint + '/recipes', recipe).subscribe(data => {
+      // this.recipes.push(<Recipe>data);
+    });
 
     this.recipesChanged.next(this.recipes.slice());
   }
@@ -60,8 +62,25 @@ export class RecipeService {
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  addToFavorite(index: string) {
+  addToFavorite(index: number) {
+    const updatedItem = this.recipes[index];
+    updatedItem.favorite = true;
 
+    this.recipes[index] = updatedItem;
+
+    this.http.put(apiEndpoint + '/recipes/' + updatedItem._id + '/favorite', {}).subscribe();
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  removeFromFavorite(index: number) {
+    const old = this.recipes[index];
+    old.favorite = false;
+
+    this.recipes[index] = old;
+
+    this.http.delete(apiEndpoint + '/recipes/' + old._id + '/favorite').subscribe()
+
+    this.recipesChanged.next(this.recipes.slice());
   }
 
 }

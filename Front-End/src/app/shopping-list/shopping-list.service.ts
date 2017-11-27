@@ -2,22 +2,19 @@ import { Ingredient } from '../shared/ingredient.model';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { apiEndpoint } from '../shared/data.service'
+import { apiEndpoint } from '../shared/data.service';
 
 @Injectable()
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
 
-  private ingredients: Ingredient[] = [
-    new Ingredient('Apples', 5),
-    new Ingredient('Tomatoes', 10),
-  ];
+  private ingredients: Ingredient[];
 
   constructor(private http: HttpClient) { }
 
   getIngredients(): Promise<Ingredient[]> {
-    return this.http.get(apiEndpoint + '/ingredients').toPromise().then(response => {
+    return this.http.get(apiEndpoint + '/shopping-list').toPromise().then(response => {
       this.ingredients = response as Ingredient[];
       return this.ingredients;
     });
@@ -31,9 +28,7 @@ export class ShoppingListService {
   addIngredient(ingredient: Ingredient) {
     this.ingredients.push(ingredient);
 
-    console.log(ingredient);
-
-    this.http.post(apiEndpoint + '/ingredients', ingredient).subscribe();
+    this.http.post(apiEndpoint + '/shopping-list', ingredient).subscribe();
 
     this.ingredientsChanged.next(this.ingredients.slice());
   }
@@ -44,18 +39,31 @@ export class ShoppingListService {
     // }
     this.ingredients.push(...ingredients);
 
-    this.http.post(apiEndpoint + '/ingredients', ingredients).subscribe();
+    console.log(ingredients);
+
+    this.http.post(apiEndpoint + '/shopping-list', ingredients).subscribe();
 
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   updateIngredient(index: number, newIngredient: Ingredient) {
+    const old = this.ingredients[index];
+
+    delete newIngredient._id;
+
     this.ingredients[index] = newIngredient;
+
+    this.http.put(apiEndpoint + '/shopping-list/' + old._id, newIngredient).subscribe();
+
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   deleteIngredient(index: number) {
+    const old = this.ingredients[index];
     this.ingredients.splice(index, 1);
+
+    this.http.delete(apiEndpoint + '/shopping-list/' + old._id).subscribe();
+
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 }

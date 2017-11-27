@@ -42,4 +42,12 @@ export class RecipeDetailComponent implements OnInit {
     this.router.navigate(['/recipes']);
   }
 
+  onAddToFavorite() {
+    this.recipeService.addToFavorite(this.id);
+  }
+
+  onRemoveFromFavorite() {
+    this.recipeService.removeFromFavorite(this.id);
+  }
+
 }

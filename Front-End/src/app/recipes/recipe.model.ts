@@ -7,7 +7,7 @@ export class Recipe {
   public description: string;
   public imagePath: string;
   public ingredients: Ingredient[];
-  public favorite: boolean;
+  public favorite = false;
 
   constructor(id: string, name: string, desc: string, imagePath: string, ingredients: Ingredient[], favorite: boolean) {
     this._id = id;

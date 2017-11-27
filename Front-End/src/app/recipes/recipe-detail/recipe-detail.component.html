@@ -28,6 +28,18 @@
         <li><a style="cursor: pointer;" (click)="onDeleteRecipe()">Delete Recipe</a></li>
       </ul>
     </div>
+    <div class="pull-right">
+      <strong>
+        Add to Favorite
+      </strong>
+      <!--@TODO Commetaart cannot add to favorite if just added a new recipe-->
+      <button (click)="onAddToFavorite()" class="btn btn-primary" *ngIf="!recipe.favorite">
+        <span class="glyphicon glyphicon-star-empty" aria-hidden="true" *ngIf="!recipe.favorite"></span>
+      </button>
+      <button (click)="onRemoveFromFavorite()" class="btn btn-primary" *ngIf="recipe.favorite">
+        <span class="glyphicon glyphicon-star" aria-hidden="true" *ngIf="recipe.favorite"></span>
+      </button>
+    </div>
   </div>
 </div>
 <div class="row">

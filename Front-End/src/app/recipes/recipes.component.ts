@@ -8,7 +8,6 @@ import {HttpClient} from '@angular/common/http';
 })
 export class RecipesComponent implements OnInit {
 
-  result: object;
 
   constructor(private http: HttpClient) { }
 
