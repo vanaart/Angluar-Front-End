@@ -34,16 +34,17 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
 
-    this.http.post('https://mongoshit.dev.byteflock.com/recipes', recipe).subscribe();
+    this.http.post('https://avans-i23ivt2d-api.herokuapp.com/recipes', recipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
 
   updateRecipe(index: number, newRecipe: Recipe) {
     const old = this.recipes[index];
+    // console.log(old);
     this.recipes[index] = newRecipe;
 
-    this.http.put('https://mongoshit.dev.byteflock.com/recipes/' + old._id, newRecipe).subscribe();
+    this.http.put('https://avans-i23ivt2d-api.herokuapp.com/recipes/' + old._id, newRecipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
@@ -52,7 +53,7 @@ export class RecipeService {
     const old = this.recipes[index];
     this.recipes.splice(index, 1);
 
-    this.http.delete('https://mongoshit.dev.byteflock.com/recipes/' + old._id).subscribe();
+    this.http.delete('https://avans-i23ivt2d-api.herokuapp.com/recipes/' + old._id).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
