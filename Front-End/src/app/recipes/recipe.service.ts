@@ -17,7 +17,7 @@ export class RecipeService {
   constructor(private slService: ShoppingListService, private http: HttpClient) {}
 
   getRecipes(): Promise<Recipe[]> {
-    return this.http.get('https://mongoshit.dev.byteflock.com/recipes').toPromise().then(response => {
+    return this.http.get('https://avans-i23ivt2d-api.herokuapp.com/recipes').toPromise().then(response => {
       this.recipes = response as Recipe[];
       return this.recipes;
     });
@@ -56,6 +56,10 @@ export class RecipeService {
     this.http.delete('https://avans-i23ivt2d-api.herokuapp.com/recipes/' + old._id).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
+  }
+
+  addToFavorite(index: string) {
+
   }
 
 }
