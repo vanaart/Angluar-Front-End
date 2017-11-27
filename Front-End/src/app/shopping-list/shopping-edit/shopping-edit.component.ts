@@ -34,7 +34,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
           this.slForm.setValue({
             name: this.editedItem.name,
             amount: this.editedItem.amount
-          })
+          });
         }
       );
   }

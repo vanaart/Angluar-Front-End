@@ -17,7 +17,7 @@ export class RecipeService {
   constructor(private slService: ShoppingListService, private http: HttpClient) {}
 
   getRecipes(): Promise<Recipe[]> {
-    return this.http.get('http://localhost:3000/recipies').toPromise().then(response => {
+    return this.http.get('https://mongoshit.dev.byteflock.com/recipes').toPromise().then(response => {
       this.recipes = response as Recipe[];
       return this.recipes;
     });
@@ -34,24 +34,27 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
 
-    this.http.post('http://localhost:3000/recipies', recipe).subscribe();
+    this.http.post('https://mongoshit.dev.byteflock.com/recipes', recipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
 
   updateRecipe(index: number, newRecipe: Recipe) {
+    const old = this.recipes[index];
     this.recipes[index] = newRecipe;
 
-    this.http.put('http://localhost:3000/recipies/' + index, newRecipe).subscribe();
+    this.http.put('https://mongoshit.dev.byteflock.com/recipes/' + old._id, newRecipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
 
   deleteRecipe(index: number) {
+    const old = this.recipes[index];
     this.recipes.splice(index, 1);
 
-    this.http.delete('http://localhost:3000/recipies/' + index).subscribe();
+    this.http.delete('https://mongoshit.dev.byteflock.com/recipes/' + old._id).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
+
 }
