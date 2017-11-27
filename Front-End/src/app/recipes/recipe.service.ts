@@ -5,6 +5,8 @@ import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import {HttpClient} from '@angular/common/http';
+import { apiEndpoint } from '../shared/data.service'
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
@@ -17,7 +19,7 @@ export class RecipeService {
   constructor(private slService: ShoppingListService, private http: HttpClient) {}
 
   getRecipes(): Promise<Recipe[]> {
-    return this.http.get('https://avans-i23ivt2d-api.herokuapp.com/recipes').toPromise().then(response => {
+    return this.http.get(apiEndpoint + '/recipes').toPromise().then(response => {
       this.recipes = response as Recipe[];
       return this.recipes;
     });
@@ -34,7 +36,7 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
 
-    this.http.post('https://avans-i23ivt2d-api.herokuapp.com/recipes', recipe).subscribe();
+    this.http.post(apiEndpoint + '/recipes', recipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
@@ -44,7 +46,7 @@ export class RecipeService {
     // console.log(old);
     this.recipes[index] = newRecipe;
 
-    this.http.put('https://avans-i23ivt2d-api.herokuapp.com/recipes/' + old._id, newRecipe).subscribe();
+    this.http.put(apiEndpoint + '/recipes/' + old._id, newRecipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
@@ -53,7 +55,7 @@ export class RecipeService {
     const old = this.recipes[index];
     this.recipes.splice(index, 1);
 
-    this.http.delete('https://avans-i23ivt2d-api.herokuapp.com/recipes/' + old._id).subscribe();
+    this.http.delete(apiEndpoint + '/recipes/' + old._id).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
   }
