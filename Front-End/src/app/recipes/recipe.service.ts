@@ -34,13 +34,13 @@ export class RecipeService {
   }
 
   addRecipe(recipe: Recipe) {
-    this.recipes.push(recipe);
+    recipe.favorite = false;
+    // this.recipes.push(recipe);
 
     this.http.post(apiEndpoint + '/recipes', recipe).subscribe(data => {
-      // this.recipes.push(<Recipe>data);
+      this.recipes.push(<Recipe>data);
+      this.recipesChanged.next(this.recipes.slice());
     });
-
-    this.recipesChanged.next(this.recipes.slice());
   }
 
   updateRecipe(index: number, newRecipe: Recipe) {
