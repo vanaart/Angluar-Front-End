@@ -7,9 +7,6 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import {HttpClient} from '@angular/common/http';
 import { apiEndpoint } from '../shared/data.service';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
@@ -35,7 +32,6 @@ export class RecipeService {
 
   addRecipe(recipe: Recipe) {
     recipe.favorite = false;
-    // this.recipes.push(recipe);
 
     this.http.post(apiEndpoint + '/recipes', recipe).subscribe(data => {
       this.recipes.push(<Recipe>data);
@@ -45,9 +41,8 @@ export class RecipeService {
 
   updateRecipe(index: number, newRecipe: Recipe) {
     const old = this.recipes[index];
-    // console.log(old);
-    this.recipes[index] = newRecipe;
 
+    this.recipes[index] = newRecipe;
     this.http.put(apiEndpoint + '/recipes/' + old._id, newRecipe).subscribe();
 
     this.recipesChanged.next(this.recipes.slice());
